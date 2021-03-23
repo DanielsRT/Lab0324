@@ -63,7 +63,7 @@ public class Lab0324 {
 
         // TODO: #13 (10 points) - The user wonders how many total credit hours there are in XCore
         // courses.  Write a function that calculates this value based on courses in the file.
-
+        totalXCORCreditHours("courses.txt");
         
         
         // TODO: #21 (30 points) - The user is tired of 3 credit hour courses so wants to know the
@@ -110,10 +110,10 @@ public class Lab0324 {
                 String crseTitle = parts[1];
                 String crseStage = parts[2];
                 String crseArea = parts[3];
-                String crseHours = parts[4];
+                int crseHours = Integer.parseInt(parts[4]);
 
                 if (course.contains("XCOR") && crseTitle.contains(target)) {
-                    System.out.printf("\t%s\t%s\t%s\n", crseTitle, course, crseHours);
+                    System.out.printf("\t%s\t%s\t%d\n", crseTitle, course, crseHours);
                 }
             }
             System.out.println();
@@ -133,13 +133,37 @@ public class Lab0324 {
                 String crseTitle = parts[1];
                 String crseStage = parts[2];
                 String crseArea = parts[3];
-                String crseHours = parts[4];
+                int crseHours = Integer.parseInt(parts[4]);
 
                 if (crseStage.equals(stage)) {
                     courseCount++;
                 }
             }
             System.out.println("There are " + courseCount + " courses in the '" + stage + "' stage.");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO #13
+    static void totalXCORCreditHours(String filename) {
+        int totalHours = 0;
+        try (Scanner sc = new Scanner(new File(filename))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split("\\|");
+                String course = parts[0];
+                String crseTitle = parts[1];
+                String crseStage = parts[2];
+                String crseArea = parts[3];
+                String crseHours = parts[4];
+                int credits = Integer.parseInt(parts[4]);
+
+                if (course.contains("XCOR")) {
+                    totalHours += credits;
+                }
+            }
+            System.out.println("\nThere's a total of " + totalHours + " XCore credit hours.\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
