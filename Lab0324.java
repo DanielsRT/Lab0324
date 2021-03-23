@@ -70,6 +70,8 @@ public class Lab0324 {
         // courses that have credit hours different than 3.  Given a (String) filename, write a
         // function that returns a single String of all courses and their hours separated by commas.
         // For example, something like "CPSC 1724 4, CPSC 2735 5, Senior Capstone 1, "
+        String Non3CreditCourses = displayNonThreeCreditCourses("courses.txt");
+        System.out.println("Courses with credit hours different than 3:\n" + Non3CreditCourses);
 
         
         
@@ -167,6 +169,31 @@ public class Lab0324 {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    // TODO #21
+    static String displayNonThreeCreditCourses(String filename) {
+        String allCourses = "";
+        try (Scanner sc = new Scanner(new File(filename))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split("\\|");
+                String course = parts[0];
+                String crseTitle = parts[1];
+                String crseStage = parts[2];
+                String crseArea = parts[3];
+                String crseHours = parts[4];
+                int credits = Integer.parseInt(parts[4]);
+                
+                if (credits != 3) {
+                    allCourses = allCourses + course + " " + credits + ", ";
+                }
+            }
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return allCourses;
     }
 
 
