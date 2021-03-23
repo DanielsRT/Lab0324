@@ -95,8 +95,8 @@ public class Lab0324 {
         // TODO: Bonus #2 (20 points) - The user only needs to take courses with a course number
         // of at least 3000.  Write a function that outputs those courses and this function must
         // also return the number of courses that were output.
-    
-   
+        int numOutputCourses = getCoursesAtLeast3000();
+        System.out.println("There were " + numOutputCourses + " courses ouputted");
    
     }
 
@@ -237,6 +237,35 @@ public class Lab0324 {
             e.printStackTrace();
         }
         return ShortestAndLongest;
+    }
+
+    // TODO Bonus #2
+    static int getCoursesAtLeast3000() {
+        System.out.println("\nCourses with a number of at least 3000:");
+        int numCourses = 0;
+        try (Scanner sc = new Scanner(new File("courses.txt"))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split("\\|");
+                String course = parts[0];
+                String crseTitle = parts[1];
+                String crseStage = parts[2];
+                String crseArea = parts[3];
+                int crseHours = Integer.parseInt(parts[4]);
+
+                String[] nameParts = course.split(" ");
+                String crseName = nameParts[0];
+                int crseNumber = Integer.parseInt(nameParts[1]);
+
+                if (crseNumber >= 3000) {
+                    System.out.println(course);
+                    numCourses++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return numCourses;
     }
 
 
