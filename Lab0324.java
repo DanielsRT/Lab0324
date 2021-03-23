@@ -87,7 +87,9 @@ public class Lab0324 {
         // function in the driver and output
         // The shortest title is '{shortest title}'.
         // The longest title is '{longest title}'.
-
+        String[] shortestAndLongest = getShortestAndLongest(); 
+        System.out.println("The shortest title is '" + shortestAndLongest[0] + "'.");
+        System.out.println("The longest title is '" + shortestAndLongest[1] + "'.");
         
 
         // TODO: Bonus #2 (20 points) - The user only needs to take courses with a course number
@@ -203,6 +205,39 @@ public class Lab0324 {
         return courseArray;
     }
 
+    // TODO Bonus #1
+    static String[] getShortestAndLongest() {
+        int shortestLength = 40;
+        String shortestTitle = "";
+        int longestLength = 0;
+        String longestTitle = "";
+        String[] ShortestAndLongest = new String[2];
+        try (Scanner sc = new Scanner(new File("courses.txt"))) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split("\\|");
+                String course = parts[0];
+                String crseTitle = parts[1];
+                String crseStage = parts[2];
+                String crseArea = parts[3];
+                int crseHours = Integer.parseInt(parts[4]);
+
+                if (crseTitle.length() < shortestLength) {
+                    shortestLength = crseTitle.length();
+                    shortestTitle = crseTitle;
+                }
+                if (crseTitle.length() > longestLength) {
+                    longestLength = crseTitle.length();
+                    longestTitle = crseTitle;
+                }
+            }
+            ShortestAndLongest[0] = shortestTitle;
+            ShortestAndLongest[1] = longestTitle;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return ShortestAndLongest;
+    }
 
 
     public static int countCourses(String filename) {
