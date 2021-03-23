@@ -47,6 +47,9 @@ public class Lab0324 {
         // in the title.  Write a function that given a (String) file name and a (String) target,
         // outputs the courses with that target.  Your output format is
         // {tab} {title} {tab} {course} {tab} {hours}
+
+        // ROBERT Because any target can be passed as the 2nd argument,
+        // your function name should not include the word "Orleans".
         displayOrleansXCORCourses("courses.txt", "Orleans");
 
     
@@ -63,6 +66,12 @@ public class Lab0324 {
 
         // TODO: #13 (10 points) - The user wonders how many total credit hours there are in XCore
         // courses.  Write a function that calculates this value based on courses in the file.
+
+        // ROBERT Every course in "courses.txt" is an XCore course
+        // but only some of the courses in that file have the subject of "XCOR".
+
+        // ROBERT Here's a how-to for VS Code:
+        // click anywhere in line 75 and use F12 to jump back and forth between call and definition.
         totalXCORCreditHours("courses.txt");
         
         
@@ -116,6 +125,9 @@ public class Lab0324 {
                 String crseArea = parts[3];
                 int crseHours = Integer.parseInt(parts[4]);
 
+                // ROBERT Why do you need to check for "XCOR"?
+                // Isn't the only important thing that the title includes the {target}?
+
                 if (course.contains("XCOR") && crseTitle.contains(target)) {
                     System.out.printf("\t%s\t%s\t%d\n", crseTitle, course, crseHours);
                 }
@@ -127,6 +139,10 @@ public class Lab0324 {
     }
 
     // TODO #12
+
+    // ROBERT This function should return the number of courses in the given {stage}.
+    // This function should not do any output.
+
     static void countCoursesInStage(String filename, String stage) {
         try (Scanner sc = new Scanner(new File(filename))) {
             int courseCount = 0;
@@ -150,6 +166,9 @@ public class Lab0324 {
     }
 
     // TODO #13
+
+    // ROBERT This function should not output and it must return a value.
+
     static void totalXCORCreditHours(String filename) {
         int totalHours = 0;
         try (Scanner sc = new Scanner(new File(filename))) {
@@ -199,6 +218,9 @@ public class Lab0324 {
     }
 
     // TODO #22
+
+    // ROBERT This is a nifty instance of re-using code from a previous function.
+    // The only issue is the returned array has one element too many.  Fix this.
     static String[] addCoursesToArray(String filename) {
         String line = displayNonThreeCreditCourses("courses.txt");
         String[] courseArray = line.split(", ");
@@ -243,6 +265,9 @@ public class Lab0324 {
     static int getCoursesAtLeast3000() {
         System.out.println("\nCourses with a number of at least 3000:");
         int numCourses = 0;
+
+        // ROBERT  Oh, no.  The user of this function can only ever use a file named "courses.txt".
+        // Fix this so users can decide which file name of courses they want to use.
         try (Scanner sc = new Scanner(new File("courses.txt"))) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -257,6 +282,7 @@ public class Lab0324 {
                 String crseName = nameParts[0];
                 int crseNumber = Integer.parseInt(nameParts[1]);
 
+                // ROBERT Does this code work if the course is "CHEM 3456D"?
                 if (crseNumber >= 3000) {
                     System.out.println(course);
                     numCourses++;
