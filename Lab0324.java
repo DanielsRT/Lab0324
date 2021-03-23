@@ -79,8 +79,8 @@ public class Lab0324 {
         // courses that have credit hours different than 3.  Given a (String) filename, write a
         // function that returns an array of Strings of all courses and their hours separated by
         // commas. For example in TODO 21, this return value would have 3 elements.
-
-        
+        String[] courseArray = addCoursesToArray("courses.txt");
+        System.out.println(Arrays.toString(courseArray) + "\n");
         
         // TODO: Bonus #1 (20 points) - The user wants to know the shortest course title and the
         // longest course title.  Write a function that returns BOTH those values and then call your
@@ -194,6 +194,13 @@ public class Lab0324 {
             e.printStackTrace();
         }
         return allCourses;
+    }
+
+    // TODO #22
+    static String[] addCoursesToArray(String filename) {
+        String line = displayNonThreeCreditCourses("courses.txt");
+        String[] courseArray = line.split(", ");
+        return courseArray;
     }
 
 
