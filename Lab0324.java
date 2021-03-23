@@ -55,6 +55,9 @@ public class Lab0324 {
         // returns the number of XCore courses in that stage.  Call your function in this driver to
         // calculate the number of Foundations courses, then the number of Explorations courses, and
         // then the number of 'Engagements with Knowledge and Practice' courses.
+        countCoursesInStage("courses.txt", "Foundations");
+        countCoursesInStage("courses.txt", "Explorations");
+        countCoursesInStage("courses.txt", "Engagements with Knowledge and Practice");
 
 
 
@@ -114,6 +117,29 @@ public class Lab0324 {
                 }
             }
             System.out.println();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO #12
+    static void countCoursesInStage(String filename, String stage) {
+        try (Scanner sc = new Scanner(new File(filename))) {
+            int courseCount = 0;
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split("\\|");
+                String course = parts[0];
+                String crseTitle = parts[1];
+                String crseStage = parts[2];
+                String crseArea = parts[3];
+                String crseHours = parts[4];
+
+                if (crseStage.equals(stage)) {
+                    courseCount++;
+                }
+            }
+            System.out.println("There are " + courseCount + " courses in the '" + stage + "' stage.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
