@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Lab0324 {
 
     static Random rand = new Random();
+    static Scanner keyb = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -47,10 +48,7 @@ public class Lab0324 {
         // in the title.  Write a function that given a (String) file name and a (String) target,
         // outputs the courses with that target.  Your output format is
         // {tab} {title} {tab} {course} {tab} {hours}
-
-        // ROBERT Because any target can be passed as the 2nd argument,
-        // your function name should not include the word "Orleans".
-        displayOrleansXCORCourses("courses.txt", "Orleans");
+        displayXCoreCoursesWithSpecificWord("courses.txt", "Orleans");
 
     
         // TODO: #12 (25 points) - The user wants to know how many XCore courses there are in a
@@ -58,21 +56,21 @@ public class Lab0324 {
         // returns the number of XCore courses in that stage.  Call your function in this driver to
         // calculate the number of Foundations courses, then the number of Explorations courses, and
         // then the number of 'Engagements with Knowledge and Practice' courses.
-        countCoursesInStage("courses.txt", "Foundations");
-        countCoursesInStage("courses.txt", "Explorations");
-        countCoursesInStage("courses.txt", "Engagements with Knowledge and Practice");
+        int FoundCourses = countCoursesInStage("courses.txt", "Foundations");
+        System.out.println("There are " + FoundCourses + " courses in the 'Foundations' stage.");
+
+        int ExploCourses = countCoursesInStage("courses.txt", "Explorations");
+        System.out.println("There are " + ExploCourses + " courses in the 'Explorations' stage.");
+
+        int EngagCourses = countCoursesInStage("courses.txt", "Engagements with Knowledge and Practice");
+        System.out.println("There are " + EngagCourses + " courses in the 'Engagements with Knowledge and Practice' stage.");
 
 
 
         // TODO: #13 (10 points) - The user wonders how many total credit hours there are in XCore
-        // courses.  Write a function that calculates this value based on courses in the file.
-
-        // ROBERT Every course in "courses.txt" is an XCore course
-        // but only some of the courses in that file have the subject of "XCOR".
-
-        // ROBERT Here's a how-to for VS Code:
-        // click anywhere in line 75 and use F12 to jump back and forth between call and definition.
-        totalXCORCreditHours("courses.txt");
+        // courses.  Write a function that calculates this value based on courses in the file..
+        int totalCredits = totalXCoreCreditHours("courses.txt");
+        System.out.println("\nThere's a total of " + totalCredits + " XCore credit hours.\n");
         
         
         // TODO: #21 (30 points) - The user is tired of 3 credit hour courses so wants to know the
@@ -113,7 +111,7 @@ public class Lab0324 {
     // WRITE YOUR FUNCTION DEFINITIONS HERE!
 
     // TODO #11
-    static void displayOrleansXCORCourses(String filename, String target) {
+    static void displayXCoreCoursesWithSpecificWord(String filename, String target) {
         System.out.println("\nXCOR courses with 'Orleans' in the title:");
         try (Scanner sc = new Scanner(new File(filename))) {
             while (sc.hasNextLine()) {
@@ -125,10 +123,7 @@ public class Lab0324 {
                 String crseArea = parts[3];
                 int crseHours = Integer.parseInt(parts[4]);
 
-                // ROBERT Why do you need to check for "XCOR"?
-                // Isn't the only important thing that the title includes the {target}?
-
-                if (course.contains("XCOR") && crseTitle.contains(target)) {
+                if (crseTitle.contains(target)) {
                     System.out.printf("\t%s\t%s\t%d\n", crseTitle, course, crseHours);
                 }
             }
@@ -139,13 +134,9 @@ public class Lab0324 {
     }
 
     // TODO #12
-
-    // ROBERT This function should return the number of courses in the given {stage}.
-    // This function should not do any output.
-
-    static void countCoursesInStage(String filename, String stage) {
+    static int countCoursesInStage(String filename, String stage) {
+        int courseCount = 0;
         try (Scanner sc = new Scanner(new File(filename))) {
-            int courseCount = 0;
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] parts = line.split("\\|");
@@ -159,17 +150,14 @@ public class Lab0324 {
                     courseCount++;
                 }
             }
-            System.out.println("There are " + courseCount + " courses in the '" + stage + "' stage.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return courseCount;
     }
 
     // TODO #13
-
-    // ROBERT This function should not output and it must return a value.
-
-    static void totalXCORCreditHours(String filename) {
+    static int totalXCoreCreditHours(String filename) {
         int totalHours = 0;
         try (Scanner sc = new Scanner(new File(filename))) {
             while (sc.hasNextLine()) {
@@ -181,15 +169,12 @@ public class Lab0324 {
                 String crseArea = parts[3];
                 String crseHours = parts[4];
                 int credits = Integer.parseInt(parts[4]);
-
-                if (course.contains("XCOR")) {
-                    totalHours += credits;
-                }
+                totalHours += credits;
             }
-            System.out.println("\nThere's a total of " + totalHours + " XCore credit hours.\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return totalHours;
     }
 
     // TODO #21
@@ -218,12 +203,15 @@ public class Lab0324 {
     }
 
     // TODO #22
-
-    // ROBERT This is a nifty instance of re-using code from a previous function.
-    // The only issue is the returned array has one element too many.  Fix this.
     static String[] addCoursesToArray(String filename) {
         String line = displayNonThreeCreditCourses("courses.txt");
-        String[] courseArray = line.split(", ");
+        String[] lineArray = line.split(", ");
+        String part1 = lineArray[0];
+        String part2 = lineArray[1];
+        String part3 = lineArray[2];
+
+        String[] courseArray = {part1, part2, part3};
+
         return courseArray;
     }
 
@@ -263,12 +251,13 @@ public class Lab0324 {
 
     // TODO Bonus #2
     static int getCoursesAtLeast3000() {
+        System.out.print("What is your filename? ");
+        String filename = keyb.nextLine();
+
         System.out.println("\nCourses with a number of at least 3000:");
         int numCourses = 0;
 
-        // ROBERT  Oh, no.  The user of this function can only ever use a file named "courses.txt".
-        // Fix this so users can decide which file name of courses they want to use.
-        try (Scanner sc = new Scanner(new File("courses.txt"))) {
+        try (Scanner sc = new Scanner(new File(filename))) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] parts = line.split("\\|");
@@ -280,10 +269,10 @@ public class Lab0324 {
 
                 String[] nameParts = course.split(" ");
                 String crseName = nameParts[0];
-                int crseNumber = Integer.parseInt(nameParts[1]);
+                String crseNumber = nameParts[1];
+                int firstNum = Integer.parseInt(String.valueOf(crseNumber.charAt(0)));
 
-                // ROBERT Does this code work if the course is "CHEM 3456D"?
-                if (crseNumber >= 3000) {
+                if (firstNum >= 3) {
                     System.out.println(course);
                     numCourses++;
                 }
