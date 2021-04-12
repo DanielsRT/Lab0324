@@ -102,16 +102,20 @@ public class Lab0324 {
         // TODO: Bonus #2 (20 points) - The user only needs to take courses with a course number
         // of at least 3000.  Write a function that outputs those courses and this function must
         // also return the number of courses that were output.
+
+        // ROBERT  Why is it a terrible idea to put '3000' in this function name?
         int numOutputCourses = getCoursesAtLeast3000();
         System.out.println("There were " + numOutputCourses + " courses ouputted");
    
     }
 
 
-    // WRITE YOUR FUNCTION DEFINITIONS HERE!
-
-    // TODO #11
     static void displayXCoreCoursesWithSpecificWord(String filename, String target) {
+
+        // ROBERT This output statement may be helpful in your driver (main) but it
+        // is confusing in my driver if my target is something like 'Xavier'.
+        // In general, programmers can't decide the text for output statements.
+        // Either that format must be in the TODO or we must ask the client.
         System.out.println("\nXCOR courses with 'Orleans' in the title:");
         try (Scanner sc = new Scanner(new File(filename))) {
             while (sc.hasNextLine()) {
@@ -127,13 +131,15 @@ public class Lab0324 {
                     System.out.printf("\t%s\t%s\t%d\n", crseTitle, course, crseHours);
                 }
             }
+
+            // ROBERT What if I don't want this blank line when I call your function?
             System.out.println();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    // TODO #12
+
     static int countCoursesInStage(String filename, String stage) {
         int courseCount = 0;
         try (Scanner sc = new Scanner(new File(filename))) {
@@ -156,13 +162,17 @@ public class Lab0324 {
         return courseCount;
     }
 
-    // TODO #13
+
     static int totalXCoreCreditHours(String filename) {
         int totalHours = 0;
         try (Scanner sc = new Scanner(new File(filename))) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] parts = line.split("\\|");
+
+                // ROBERT VS Code puts a squiggly line under all these variables because you
+                // create these variables but they are not used.  Don't create variables that
+                // you don't use.
                 String course = parts[0];
                 String crseTitle = parts[1];
                 String crseStage = parts[2];
@@ -177,7 +187,7 @@ public class Lab0324 {
         return totalHours;
     }
 
-    // TODO #21
+
     static String displayNonThreeCreditCourses(String filename) {
         String allCourses = "";
         try (Scanner sc = new Scanner(new File(filename))) {
@@ -202,6 +212,9 @@ public class Lab0324 {
         return allCourses;
     }
 
+
+    // ROBERT No need to put a comment with the TODO, programmers will use F12 to jump between 
+    // function call and function definition.
     // TODO #22
     static String[] addCoursesToArray(String filename) {
         String line = displayNonThreeCreditCourses("courses.txt");
@@ -221,6 +234,11 @@ public class Lab0324 {
         String shortestTitle = "";
         int longestLength = 0;
         String longestTitle = "";
+
+        // ROBERT Java doesn't care but other programmers care about the way you format variable
+        // names.  useCamelCase (first letter lowercase) for variables.  UseTitleCase for class
+        // names.  Notice this is true of String, ArrayList, and even at line 10.  USE_ALL_CAPS
+        // for constants.
         String[] ShortestAndLongest = new String[2];
         try (Scanner sc = new Scanner(new File("courses.txt"))) {
             while (sc.hasNextLine()) {
@@ -251,9 +269,15 @@ public class Lab0324 {
 
     // TODO Bonus #2
     static int getCoursesAtLeast3000() {
+
+        // ROBERT So every time I use this function I have to watch the terminal just to see if
+        // it's waiting for me to enter input.  Why do this.  I know when I call your function the
+        // name of my file.
         System.out.print("What is your filename? ");
         String filename = keyb.nextLine();
 
+        // ROBERT What if I want to check for courses 2000+.
+        // This function is rigid when we want to write very flexible functions.
         System.out.println("\nCourses with a number of at least 3000:");
         int numCourses = 0;
 
